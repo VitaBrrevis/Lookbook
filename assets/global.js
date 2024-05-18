@@ -539,7 +539,7 @@ customElements.define('header-drawer', HeaderDrawer);
 class ModalDialog extends HTMLElement {
   constructor() {
     super();
-    this.querySelector('[id^="ModalClose-"]').addEventListener('click', this.hide.bind(this, false));
+    this.querySelector('[id^="ModalClose-"]')?.addEventListener('click', this.hide.bind(this, false));
     this.addEventListener('keyup', (event) => {
       if (event.code.toUpperCase() === 'ESCAPE') this.hide();
     });
@@ -558,9 +558,11 @@ class ModalDialog extends HTMLElement {
     if (this.moved) return;
     this.moved = true;
     document.body.appendChild(this);
+    this.scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
   }
 
   show(opener) {
+    document.body.style.paddingRight =  this.scrollBarWidth + 'px';
     this.openedBy = opener;
     const popup = this.querySelector('.template-popup');
     document.body.classList.add('overflow-hidden');
@@ -576,6 +578,7 @@ class ModalDialog extends HTMLElement {
     this.removeAttribute('open');
     removeTrapFocus(this.openedBy);
     window.pauseAllMedia();
+    document.body.style.paddingRight = '';
   }
 }
 customElements.define('modal-dialog', ModalDialog);
@@ -1039,10 +1042,10 @@ class VariantSelects extends HTMLElement {
     if (!shareButton || !shareButton.updateUrl) return;
     shareButton.updateUrl(`${window.shopUrl}${this.dataset.url}?variant=${this.currentVariant.id}`);
   }
-
+  
   updateVariantInput() {
     const productForms = document.querySelectorAll(
-      `#product-form-${this.dataset.section}, #product-form-installment-${this.dataset.section}`
+      `#product-form-${this.dataset.section}, #product-form-installment-${this.dataset.section}, #${this.dataset.section} `
     );
     productForms.forEach((productForm) => {
       const input = productForm.querySelector('input[name="id"]');

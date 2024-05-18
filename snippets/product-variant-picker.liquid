@@ -6,13 +6,18 @@
   - block: {Object} passing the block information.
   - product_form_id: {String} Id of the product form to which the variant picker is associated.
   - update_url: {Boolean} whether or not to update url when changing variants. If false, the url isn't updated. Default: true (optional).
+  - section_id: {String} unique section id in case is there are several pvps in section
   Usage:
   {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
 {% endcomment %}
 {%- unless product.has_only_default_variant -%}
   <variant-selects
     id="variant-selects-{{ section.id }}"
-    data-section="{{ section.id }}"
+    {% unless section_id == blank %}
+      data-section="{{ section_id }}"
+    {% else %}
+      data-section="{{ section.id }}"
+    {% endunless %}
     data-url="{{ product.url }}"
     {% if update_url == false %}
       data-update-url="false"
@@ -58,7 +63,7 @@
           %}
         </fieldset>
       {%- else -%}
-        <div class="product-form__input product-form__input--dropdown">
+        <div class="product-form__input product-form__input--dropdown" aria-label="{{ option.name }}">
           <label class="form__label" for="Option-{{ section.id }}-{{ forloop.index0 }}">
             {{ option.name }}
           </label>
@@ -76,15 +81,22 @@
               class="select__select"
               name="options[{{ option.name | escape }}]"
               form="{{ product_form_id }}"
+              {% if option.values.size == 1 %}
+                disabled
+              {% endif %}
             >
               {% render 'product-variant-options',
                 product: product,
                 option: option,
                 block: block,
-                picker_type: picker_type
+                picker_type: picker_type,
+                preselected_variant: preselected_variant,
+                index: forloop.index0
               %}
             </select>
-            {% render 'icon-caret' %}
+            {% unless option.values.size == 1 %}
+              {% render 'icon-caret' %}
+            {% endunless %}
           </div>
         </div>
       {%- endif -%}

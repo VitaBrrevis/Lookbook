@@ -6,6 +6,8 @@
   - option: {Object} current product_option object.
   - block: {Object} block object.
   - picker_type: {String} type of picker to dispay
+  - preselected_variant: {Object} default variant.
+  - index: {String} number of option.
 
 
   Usage:
@@ -109,11 +111,17 @@
       {{ value -}}
       {{ label_unavailable }}
     </label>
-  {%- elsif picker_type == 'dropdown' or picker_type == 'swatch_dropdown' -%}
+  {%- else -%}
     <option
       value="{{ value | escape }}"
-      {% if option.selected_value == value %}
-        selected="selected"
+      {% if preselected_variant != blank %}
+        {%- if preselected_variant.options[index]  == value %}
+          selected="selected"
+        {% endif %}
+      {% else %}
+        {%- if option.selected_value == value %}
+          selected="selected"
+        {% endif %}
       {% endif %}
       {% if swatch_value and picker_type == 'swatch_dropdown' %}
         data-option-swatch-value="{{ swatch_value }}"

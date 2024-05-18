@@ -27,7 +27,7 @@
     <product-form
       class="product-form"
       data-hide-errors="{{ gift_card_recipient_feature_active }}"
-      data-section-id="{{ section.id }}"
+      data-section_id = " {% unless product_form_id == blank %}{{ product_form_id }}{% else %}{{ section.id }}{% endunless %}"
     >
       <div class="product-form__error-message-wrapper" role="alert" hidden>
         <svg
@@ -54,7 +54,7 @@
         <input
           type="hidden"
           name="id"
-          value="{{ product.selected_or_first_available_variant.id }}"
+          value="{% unless preselected_variant == blank %}{{ preselected_variant.id }}{% else %}{{ product.selected_or_first_available_variant.id }}{% endunless %}"
           {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
             disabled
           {% endif %}
@@ -80,7 +80,8 @@
             type="submit"
             name="add"
             class="product-form__submit button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
-            {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
+          
+            {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout or preselected_variant.available == false %}
               disabled
             {% endif %}
           >
