@@ -1,0 +1,225 @@
+{{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
+{{ 'section-lookbook.css' | asset_url | stylesheet_tag }}
+{{ 'component-lookbook-product-card.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  .lookbook--{{section.id}} {
+    padding-top: {{section.settings.padding_top}}px;
+    padding-bottom: {{section.settings.padding_bottom}}px;
+  }
+  @media(max-width: 751px) {
+    .lookbook--{{section.id}} {
+      padding-top: {{section.settings.padding_top_mobile}}px;
+      padding-bottom: {{section.settings.padding_bottom_mobile}}px;
+    }
+    {% unless section.settings.content == blank %}
+        .lookbook--{{section.id}} .lookbook__text {
+            text-align: {{ section.settings.content_mobile_layout }};
+        }
+    {% endunless %}
+  }
+{% endstyle %}
+
+<div class="lookbook--{{section.id}}">
+  <div class="lookbook__wrapper grid grid--1-col grid--2-col-tablet grid--gapless">
+    <div class="lookbook__content grid__item lookbook__content--{{section.settings.image_position}} ">
+      {% unless section.settings.content == blank %}
+        <span class="lookbook__text">
+          {{ section.settings.content }}
+        </span>
+      {% endunless %}
+    </div>
+    <div class="lookbook__media-wrapper grid__item">
+      <div
+        class="lookbook__media media {% if section.settings.image == blank %} placeholder {% endif %}"
+        style="padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;"
+      >
+        {% unless section.settings.image == blank %}
+          {% render 'image', image: section.settings.image, image_class: 'lookbook__media-item' %}
+        {% endunless %}
+      </div>
+    </div>
+  </div>
+  {% unless section.settings.button_label == blank or section.settings.products == blank %}
+    <modal-opener
+      class="lookbook__modal-opener"
+      data-modal="#PopupModal-{{ section.id }}"
+    >
+      <button
+        id="LookbookPopup-{{ section.id }}"
+        class="lookbook__modal-button button"
+        type="button"
+        aria-haspopup="dialog"
+      >
+        {{ section.settings.button_label | escape }}
+      </button>
+    </modal-opener>
+
+    <modal-dialog id="PopupModal-{{ section.id }}" class="product-popup-modal">
+      <div
+        role="dialog"
+        aria-label="{{ 'products.modal.label' | t }}"
+        aria-modal="true"
+        class="lookbook__modal-content-wrapper  animate--slide-in"
+        tabindex="-1"
+      >
+        <div class="lookbook__modal-content grid grid--1-col grid--2-col-tablet">
+          <div
+            class="modal-content__media-wrapper grid__item {% if section.settings.image == blank %} placeholder {% endif %} "
+          >
+            {% unless section.settings.image == blank %}
+              {% render 'image', image: section.settings.image, image_class: 'modal-content__media-item' %}
+            {% endunless %}
+          </div>
+          <div class="modal-content__products-wrapper grid__item">
+            {% for product in section.settings.products %}
+              {% assign product_form_id = 'product-form-' | append: section.id | append: forloop.index %}
+              {% render 'lookbook-product-card', product: product, product_form_id: product_form_id, lookbook_name: section.settings.lookbook_name  %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </modal-dialog>
+  {% endunless %}
+</div>
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{% schema %}
+{
+  "name": "Lookbook",
+  "tag": "section",
+  "class": "section__lookbook",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "richtext",
+      "label": "Main content",
+      "id": "content",
+      "default": "<p>Main content</p>"
+    },
+    {
+      "type": "select",
+      "id": "content_mobile_layout",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center",
+      "label": "Mobile content align"
+    },
+    {
+      "type": "image_picker",
+      "label": "Main image",
+      "id": "image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left",
+      "label": "Image position"
+    },
+    {
+      "type": "paragraph",
+      "content": "Modal details"
+    },
+    {
+      "type": "text",
+      "label": "Button label",
+      "id": "button_label",
+      "default": "Shop the look",
+      "info": "Label of the button which opens the modal details"
+    },
+    {
+      "type": "product_list",
+      "id": "products",
+      "label": "Products modal",
+      "info": "List of products displayed in modal details"
+    },
+    {
+      "type": "text",
+      "label": "Lookbook name",
+      "id": "lookbook_name",
+      "info": "Won't be visible for user. Used for colors from product metafield named 'Lookbook specified color'. If blank - the products' default color will be the first one."
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "paragraph",
+      "content": "Desktop"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    },
+    {
+      "type": "paragraph",
+      "content": "Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Lookbook"
+    }
+  ]
+}
+{% endschema %}

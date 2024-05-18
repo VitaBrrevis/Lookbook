@@ -1,0 +1,131 @@
+.card-product {
+    position: relative;
+}
+
+.grid__item.card-product__media-wrapper {
+    max-width: 40%;
+}
+
+.cart-notification.active{
+    z-index: 1000;
+}
+
+.product-info__title {
+    margin: 0;
+    font-size: 1.3rem;
+    letter-spacing: 0.06rem;
+    max-width: calc(60% - 5px);
+    height: fit-content;
+    width: 100%;
+}
+
+.price.product-info__price {
+    display: flex;
+    max-width: 40%;
+    width: 100%;
+    justify-content: end;
+    height: fit-content;
+}
+
+.product-info__text-wrapper {
+    justify-content: space-between;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product-info__description {
+    width: 100%;
+    text-align: left;
+}
+
+.product-info__price .price-item {
+    margin-right: 0;
+    font-size: 1.3rem;
+}
+
+.product-info__price .price-item.price-item--last {
+    color: red;
+}
+
+.product-info__price .price__regular .price-item {
+    margin-top: -2px;
+}
+
+.product-info__price .price__sale,
+.product-info__price .price__regular {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.product-info__price .visually-hidden--inline {
+    height: 1px;
+}
+
+.product-info__variant-cart .product-form__input[aria-label="Color"] {
+    display: none;
+}
+
+.product-info__variant-cart .form__label {
+    display: none;
+}
+
+.product-info__variant-cart .select {
+    max-height: 45px;
+}
+
+.product-info__variant-cart .select .icon-caret {
+    right: 0;
+}
+
+.product-info__variant-cart .select__select {
+    font-size: 1.3rem;
+}
+
+.product-info__variant-cart .product-form__submit {
+    background: transparent;
+    box-sizing: border-box;
+    color: rgba(var(--color-button));
+    border: 1px solid rgba(var(--color-button));
+    font-size: 1.1rem;
+    letter-spacing: 0.06rem;
+    min-width: fit-content;
+}
+
+.product-info__variant-cart {
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+}
+
+.product-info__variant-cart .select::after,
+.product-info__variant-cart .select::before {
+    display: none;
+}
+.select__select:focus,
+.product-info__variant-cart  .select__select:focus-visible{
+    box-shadow: none;
+}
+.card-product__product-info {
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column
+}
+
+.product-info__description p {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.product-info__description p:last-child {
+    margin-bottom: 0;
+}
+
+.product-info__description,
+.product-info__variant-description {
+    font-size: 1.1rem;
+    letter-spacing: 0.06rem;
+}
+
+.product-info__variant-cart select:disabled {
+    opacity: 1;
+}

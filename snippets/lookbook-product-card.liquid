@@ -1,0 +1,88 @@
+{% comment %}
+  Renders lookbook product card
+
+  Accepts:
+  - product: {Object} product object.
+  - product_form_id: {String} Id of the product form to which the variant picker is associated.
+  - lookbook_name: {String} Name of the associated lookbook.
+  Usage:
+  {% render 'product-variant-picker', product: product, product_form_id: product_form_id, lookbook_name %}
+{% endcomment %}
+
+{% liquid
+  assign lookbook_product_variant = blank
+  for lookbooks in product.metafields.lookbooks.variants.value
+    for name in lookbooks.lookbook_name.value
+      if name == lookbook_name and lookbooks.variant_of_product.value.product == product
+        assign lookbook_product_variant = lookbooks.variant_of_product.value
+      endif
+    endfor
+  endfor
+  unless lookbook_product_variant == blank or lookbook_product_variant.featured_image == blank
+    assign featured_image = lookbook_product_variant.featured_image
+  else
+    assign featured_image = product.featured_image
+  endunless
+%}
+
+<div class="card-product grid grid--1-col grid--2-col-tablet">
+  {% unless product.featured_image == blank %}
+    <div class="card-product__media-wrapper grid__item">
+      <div
+        class="card-product__media media"
+        style="padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;"
+      >
+        {% unless featured_image == blank %}
+          {% render 'image', image: featured_image, image_class: 'card-product__media-item' %}
+        {% endunless %}
+      </div>
+    </div>
+  {% endunless %}
+  <div class="card-product__product-info grid__item">
+    <div class="product-info__text-wrapper">
+      <h5 class="product-info__title">
+        {{ product.title }}
+      </h5>
+      {% render 'price',
+        product: product,
+        price_class: 'product-info__price price--large',
+        hide_min_price: true,
+        hide_icon: true
+      %}
+      {% unless product.description == blank %}
+        <span class="product-info__description">
+          {{ product.description }}
+        </span>
+      {% endunless %}
+      {% unless lookbook_product_variant == blank %}
+        {% assign color_option_index = blank %}
+        {% for option in lookbook_product_variant.product.options %}
+          {% if option == "Color" %}
+              {% assign color_option_index = forloop.index0 %}
+          {% endif %}
+        {% endfor %}
+        {% unless color_option_index == blank %}
+          <span class = "product-info__variant-description">
+            {{ lookbook_product_variant.options[color_option_index] }}
+          </span>
+        {% endunless %}
+      {% endunless %}
+    </div>
+    <div class="product-info__variant-cart">
+      {% render 'product-variant-picker',
+        product: product,
+        product_form_id: product_form_id,
+        update_url: false,
+        section_id: product_form_id,
+        preselected_variant: lookbook_product_variant,
+        color_option_index: color_option_index
+      %}
+      {%- render 'buy-buttons',
+        product: product,
+        product_form_id: product_form_id,
+        section_id: product_form_id,
+        preselected_variant: lookbook_product_variant
+      -%}
+    </div>
+  </div>
+</div>

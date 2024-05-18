@@ -1,0 +1,148 @@
+.lookbook__content {
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    grid-gap: var(--page-padding-desktop);
+}
+
+.lookbook__text {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    line-height: 1.6;
+    letter-spacing: .032em;
+    text-align: left;
+    font-size: 1.1rem;
+}
+
+.lookbook__text P {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.lookbook__text P:last-child {
+    margin-bottom: 0;
+}
+
+.lookbook__content--right {
+    order: 1;
+}
+
+.lookbook__media-item,
+.modal-content__media-item {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+}
+
+.product-popup-modal .modal-content__media-wrapper img.modal-content__media-item {
+    object-fit: contain;
+    height: auto;
+    top: 0;
+}
+
+.product-popup-modal {
+    box-sizing: border-box;
+    opacity: 0;
+    position: fixed;
+    visibility: hidden;
+    z-index: -1;
+    margin: 0 auto;
+    top: 0;
+    left: 0;
+    overflow: auto;
+    width: 100vw;
+    transition: all .3s;
+    background: rgba(var(--color-foreground), 0.2);
+    height: 100%;
+}
+
+.product-popup-modal[open] {
+    opacity: 1;
+    visibility: visible;
+    z-index: 101;
+}
+
+.lookbook__wrapper.grid {
+    margin-bottom: 0;
+}
+
+.lookbook__media-wrapper {
+    position: relative;
+}
+
+.lookbook__modal-content-wrapper {
+    transition: all .3s ease-in-out;
+    background-color: rgb(var(--color-background));
+    overflow: auto;
+    height: 80%;
+    margin: 0 auto;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 5rem;
+    width: 92%;
+    position: absolute;
+    top: 0;
+    padding: 0 1.5rem 0 3rem;
+}
+
+.lookbook__modal-button {
+    opacity: .5;
+    font-size: 1.1rem;
+    letter-spacing: 0.06rem;
+}
+
+.lookbook__modal-opener {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.lookbook__modal-button {
+    margin-top: 128px;
+}
+
+.modal-content__media-wrapper {
+    height: 100%;
+    background: transparent;
+}
+
+.lookbook__modal-content-wrapper {
+    max-width: 1100px;
+    padding: 20px;
+}
+
+@media screen and (min-width: 750px) and (max-width: 989px) {
+    .lookbook__content {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: 0;
+        padding: 1.6rem;
+    }
+
+    .lookbook__text {
+        grid-column: 1;
+    }
+}
+
+@media(max-width: 751px) {
+    .lookbook__modal-button {
+        width: 100%;
+        margin: 64px 12px 0;
+    }
+
+    .lookbook__content {
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: center;
+        align-self: center;
+        padding: 2.4rem 1.6rem 6.4rem;
+        position: relative;
+    }
+
+    .lookbook__text {
+        align-self: center;
+        text-align: center;
+    }
+}
