@@ -40,13 +40,13 @@
     display: flex;
     flex-wrap: wrap;
     text-decoration: none;
-    color: rgba(var(--color-button-text));
+    color: rgba(var(--color-button));
 }
 
 .product-info__description {
     width: 100%;
     text-align: left;
-    color: rgba(var(--color-button-text));
+    color: rgba(var(--color-button));
 }
 
 .product-info__price .price-item {
