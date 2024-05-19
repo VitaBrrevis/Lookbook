@@ -46,6 +46,7 @@
 .product-info__description {
     width: 100%;
     text-align: left;
+    color: rgba(var(--color-button-text));
 }
 
 .product-info__price .price-item {
