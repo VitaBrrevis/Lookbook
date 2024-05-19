@@ -27,7 +27,7 @@
 
 <div class="card-product grid grid--1-col grid--2-col-tablet">
   {% unless product.featured_image == blank %}
-    <div class="card-product__media-wrapper grid__item">
+    <a href = "{{ product.url }}" class="card-product__media-wrapper grid__item">
       <div
         class="card-product__media media"
         style="padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;"
@@ -36,10 +36,10 @@
           {% render 'image', image: featured_image, image_class: 'card-product__media-item' %}
         {% endunless %}
       </div>
-    </div>
+    </a>
   {% endunless %}
   <div class="card-product__product-info grid__item">
-    <div class="product-info__text-wrapper">
+    <a href = "{{ product.url }}" class="product-info__text-wrapper">
       <h5 class="product-info__title">
         {{ product.title }}
       </h5>
@@ -47,6 +47,7 @@
         product: product,
         price_class: 'product-info__price price--large',
         hide_min_price: true,
+        show_compare_at_price: true,
         hide_icon: true
       %}
       {% unless product.description == blank %}
@@ -71,7 +72,7 @@
           {% endunless %}
         </span>
       {% endunless %}
-    </div>
+    </a>
     <div class="product-info__variant-cart">
       {% render 'product-variant-picker',
         product: product,

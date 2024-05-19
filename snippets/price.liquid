@@ -58,33 +58,29 @@
     {%- endcomment -%}
     {% unless product.price_varies %}
       <div class="price__regular">
-        {%- if product.quantity_price_breaks_configured? -%}
           {%- if show_compare_at_price and compare_at_price -%}
             {%- unless product.price_varies == false and product.compare_at_price_varies %}
               <span class="visually-hidden visually-hidden--inline">
                 {{- 'products.product.price.regular_price' | t -}}
               </span>
               <span>
-                <s class="price-item price-item--regular variant-item__old-price">
-                  {% if settings.currency_code_enabled %}
-                    {{ compare_at_price | money_with_currency }}
+                <s class="price-item price-item--regular">
+                  {% if hide_icon == false and hide_min_price == false or hide_min_price == blank %}
+                    {% if settings.currency_code_enabled %}
+                      {{ compare_at_price | money_with_currency }}
+                    {% else %}
+                      {{ compare_at_price | money }}
+                    {% endif %}
                   {% else %}
-                    {{ compare_at_price | money }}
+                    {{ compare_at_price | money_without_currency | round }}
+                    {{ shop.currency }}
                   {% endif %}
                 </s>
               </span>
             {%- endunless -%}
           {%- endif -%}
-          <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
-          <span class="price-item price-item--regular">
-            {{-
-              'products.product.volume_pricing.price_range'
-              | t: minimum: money_price_min, maximum: money_price_max
-            -}}
-          </span>
-        {%- else -%}
-          <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
-          <span class="price-item price-item--regular">
+          <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
+          <span class="price-item price-item--sale price-item--last">
             {% if hide_icon == false and hide_min_price == false or hide_min_price == blank %}
               {{ money_price }}
             {% else %}
@@ -92,7 +88,6 @@
               {{ shop.currency }}
             {% endif %}
           </span>
-        {%- endif -%}
       </div>
     {% else %}
       <div class="price__sale">
