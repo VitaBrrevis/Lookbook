@@ -54,18 +54,22 @@
           {{ product.description }}
         </span>
       {% endunless %}
-      {% unless lookbook_product_variant == blank %}
-        {% assign color_option_index = blank %}
-        {% for option in lookbook_product_variant.product.options %}
-          {% if option == "Color" %}
-              {% assign color_option_index = forloop.index0 %}
-          {% endif %}
-        {% endfor %}
-        {% unless color_option_index == blank %}
-          <span class = "product-info__variant-description">
+
+      {% assign color_option_index = blank %}
+      {% for option in product.options %}
+        {% if option == 'Color' %}
+          {% assign color_option_index = forloop.index0 %}
+        {% endif %}
+      {% endfor %}
+
+      {% unless color_option_index == blank %}
+        <span class="product-info__variant-description">
+          {% unless lookbook_product_variant == blank %}
             {{ lookbook_product_variant.options[color_option_index] }}
-          </span>
-        {% endunless %}
+          {% else %}
+            {{ product.selected_or_first_available_variant.options[color_option_index] }}
+          {% endunless %}
+        </span>
       {% endunless %}
     </div>
     <div class="product-info__variant-cart">

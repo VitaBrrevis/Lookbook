@@ -76,24 +76,26 @@
                 {% render 'swatch', swatch: option.selected_value.swatch, shape: block.settings.swatch_shape %}
               </span>
             {%- endif -%}
-            <select
-              id="Option-{{ section.id }}-{{ forloop.index0 }}"
-              class="select__select"
-              name="options[{{ option.name | escape }}]"
-              form="{{ product_form_id }}"
-              {% if option.values.size == 1 %}
-                disabled
-              {% endif %}
-            >
-              {% render 'product-variant-options',
-                product: product,
-                option: option,
-                block: block,
-                picker_type: picker_type,
-                preselected_variant: preselected_variant,
-                index: forloop.index0
-              %}
-            </select>
+            {% if option.values.size == 1 %}
+              <span class="select__single-option select__select">{{ option.values[0] }} <span>
+            {% else %}
+              <select
+                id="Option-{{ section.id }}-{{ forloop.index0 }}"
+                class="select__select"
+                name="options[{{ option.name | escape }}]"
+                form="{{ product_form_id }}"
+                tabindex="0"
+              >
+                {% render 'product-variant-options',
+                  product: product,
+                  option: option,
+                  block: block,
+                  picker_type: picker_type,
+                  preselected_variant: preselected_variant,
+                  index: forloop.index0
+                %}
+              </select>
+            {% endif %}
             {% unless option.values.size == 1 %}
               {% render 'icon-caret' %}
             {% endunless %}

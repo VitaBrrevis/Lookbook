@@ -50,7 +50,9 @@ class CartDrawer extends HTMLElement {
   close() {
     this.classList.remove('active');
     removeTrapFocus(this.activeElement);
-    document.body.classList.remove('overflow-hidden');
+    if (!document.querySelector('.product-popup-modal[open]')){
+       document.body.classList.remove('overflow-hidden');
+    }
   }
 
   setSummaryAccessibility(cartDrawerNote) {
