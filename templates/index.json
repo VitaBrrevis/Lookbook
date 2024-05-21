@@ -11,9 +11,9 @@
         "products": [
           "ne-bora",
           "ne-fida",
-          "the-pillow-bag"
+          "bag"
         ],
-        "lookbook_name": "",
+        "lookbook_name": "testBook",
         "padding_top": 0,
         "padding_bottom": 36,
         "padding_top_mobile": 0,
